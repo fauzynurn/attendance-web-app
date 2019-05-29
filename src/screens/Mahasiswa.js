@@ -18,6 +18,10 @@ const columns = [
   {
     title: "S/N",
     dataIndex: "serialnumber"
+  },
+  {
+    title: "action",
+    dataIndex: "action"
   }
 ];
 export default class Mahasiswa extends Component {
@@ -31,13 +35,7 @@ export default class Mahasiswa extends Component {
   }
   render() {
     return (
-      <div>
-        {this.state.data.length > 0 ? (
-          <Table columns={columns} dataSource={this.state.data} />
-        ) : (
-          <p>Loading..</p>
-        )}
-      </div>
+      <Table columns={columns} dataSource={this.state.data} />
     );
   }
 }

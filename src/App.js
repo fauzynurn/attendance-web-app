@@ -3,6 +3,8 @@ import { Layout } from "antd";
 import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
 import Mahasiswa from "./screens/Mahasiswa";
+import kehadiranMhs from "./screens/kehadiranMhs";
+import dosen from "./screens/dosen";
 import Home from "./screens/Home";
 import Drawer from "./components/Drawer";
 import Navbar from "./components/Navbar";
@@ -71,6 +73,10 @@ class App extends Component {
             >
               <Route exact path="/" component={Home} />
               <Route path="/mhs" component={Mahasiswa} />
+              <Route path="/dsn" component={dosen} />
+              <Route path="/kdmhs" component={kehadiranMhs} />
+              
+
             </Content>
           </Layout>
         </Layout>
