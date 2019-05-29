@@ -1,24 +1,16 @@
 import React, { Component } from "react";
-import { Table, Divider } from "antd";
+import { Table, Divider, Button } from "antd";
 import Axios from "axios";
 
 
 const columns = [
   {
-    title: "NIK",
-    dataIndex: "nik"
+    title: "Kelas",
+    dataIndex: "kelas"
   },
   {
-    title: "Nama",
-    dataIndex: "nama"
-  },
-  {
-    title: "Password",
-    dataIndex: "password"
-  },
-  {
-    title: "S/N",
-    dataIndex: "serialnumber"
+    title: "kode beacon",
+    dataIndex: "mac"
   },
   {
     title: 'Action',
@@ -34,16 +26,8 @@ const columns = [
   },
 ];
 
-const data = [];
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i,
-    NIK: '1615110${i}',
-    nama: 'budi pelo' 
-  });
-}
 
-export default class dosen extends Component {
+export default class kelas extends Component {
   state = {
     data: []
   };
@@ -54,7 +38,13 @@ export default class dosen extends Component {
   }
   render() {
     return (
-      <Table columns={columns} dataSource={data} pagination={false} />
+      <div>
+      <Button type="primary" shape="round" icon="plus">
+          tambah
+      </Button>
+      <Divider/>
+      <Table style={{height:200}} columns={columns}  pagination={false} />
+      </div>
     );
   }
 }

@@ -31,7 +31,7 @@ export default class Drawer extends Component {
           </Menu.Item>
           <Menu.Item key="2">
             <Link to="/mhs">
-              <Icon type="user" />
+              <Icon type="idcard" />
               <span>Daftar Mahasiswa</span>
             </Link>
           </Menu.Item>
@@ -43,8 +43,26 @@ export default class Drawer extends Component {
           </Menu.Item>
           <Menu.Item key="4">
             <Link to="/kdmhs">
-              <Icon type="user" />
+              <Icon type="book" />
               <span>Kehadiran Mahasiswa</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <Link to="/jdwl">
+              <Icon type="calendar" />
+              <span>Jadwal Mahasiswa</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="6">
+            <Link to="/kls">
+              <Icon type="audit" />
+              <span>Kelas</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="7">
+            <Link to="/tmbhmhs">
+              <Icon type="audit" />
+              <span>Add Mahasiswa</span>
             </Link>
           </Menu.Item>
         </Menu>

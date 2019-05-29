@@ -5,10 +5,13 @@ import "./App.css";
 import Mahasiswa from "./screens/Mahasiswa";
 import kehadiranMhs from "./screens/kehadiranMhs";
 import dosen from "./screens/dosen";
+import jadwal from "./screens/jadwal";
 import Home from "./screens/Home";
+import kelas from "./screens/kelas";
 import Drawer from "./components/Drawer";
 import Navbar from "./components/Navbar";
-const axios = require("axios");
+import tambahMhs from "./screens/tambahMhs";
+//const axios = require("axios");
 const { Content } = Layout;
 
 class App extends Component {
@@ -75,6 +78,9 @@ class App extends Component {
               <Route path="/mhs" component={Mahasiswa} />
               <Route path="/dsn" component={dosen} />
               <Route path="/kdmhs" component={kehadiranMhs} />
+              <Route path="/jdwl" component={jadwal}/>
+              <Route path="/kls" component={kelas}/>
+              <Route path="/tmbhmhs" component={tambahMhs}/>
               
 
             </Content>
