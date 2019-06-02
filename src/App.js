@@ -11,6 +11,8 @@ import kelas from "./screens/kelas";
 import Drawer from "./components/Drawer";
 import Navbar from "./components/Navbar";
 import tambahMhs from "./screens/tambahMhs";
+import Login from "./screens/login";
+
 //const axios = require("axios");
 const { Content } = Layout;
 
@@ -62,6 +64,7 @@ class App extends Component {
     // const { getFieldDecorator } = this.props.form;
     return (
       <BrowserRouter>
+      
         <Layout style={{ minHeight: "100vh" }}>
           <Drawer />
           <Layout>
@@ -74,7 +77,7 @@ class App extends Component {
                 background: "#fff"
               }}
             >
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={Home}/>
               <Route path="/mhs" component={Mahasiswa} />
               <Route path="/dsn" component={dosen} />
               <Route path="/kdmhs" component={kehadiranMhs} />
@@ -82,10 +85,13 @@ class App extends Component {
               <Route path="/kls" component={kelas}/>
               <Route path="/tmbhmhs" component={tambahMhs}/>
               
+              
+              
 
             </Content>
           </Layout>
         </Layout>
+        
       </BrowserRouter>
 
       // <Layout className="parent">

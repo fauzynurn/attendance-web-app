@@ -69,10 +69,14 @@ export default class Mahasiswa extends Component {
       this.setState({ ...this.state, data: res.data })
     );
   }
+  onClick = () => {
+    console.log(this)
+    this.props.history.push('/tmbhmhs')
+  }
   render() {
     return (
       <div>
-      <Button type="primary" shape="round" icon="plus">
+      <Button type="primary" shape="round" icon="plus" onClick={this.onClick}>
           tambah
       </Button>
       <Divider type="vertical"/>

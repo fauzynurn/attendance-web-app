@@ -1,31 +1,57 @@
-import React, { Component } from "react";
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import React, {Component} from 'react';
+import { Form, Input, Button, Cascader, Divider } from 'antd';
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 0 },
+    sm: { span: 2 },
+  },
+  wrapperCol: {
+    xs: { span: 0 },
+    sm: { span: 10 },
+  },
+};
+
+
+const options = [
+  {
+    value: '1A',
+    label: '1A',
+  },
+  {
+    value: '1B',
+    label: '1B',
+  },
+  {
+    value: '2A',
+    label: '2A',
+  },
+];
 
 export default class tambahMhs extends Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
+  
 
   render() {
-      const { getFieldDecorator } = this.props.form;
     return (
-      <Form className="login-form">
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />,
-          )}
+      <div>      
+      <Cascader options={options}  placeholder="Please select a class" />    
+      <Divider/>
+      <Form {...formItemLayout}>
+        <Form.Item label="nama">
+          <Input placeholder="nama" id="nama" />
+        </Form.Item>
+        <Form.Item label="NIM">
+          <Input placeholder="NIM" id="NIM" />
+        </Form.Item>
+        <Form.Item label="kode emay">
+          <Input placeholder="emay" id="emay" />
         </Form.Item>
       </Form>
+      <Button type="primary" shape="round" icon="plus">
+          simpan
+      </Button>
+    </div>
+
     );
   }
 }
