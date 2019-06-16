@@ -3,11 +3,11 @@ import { Form, Input, Button, Cascader, Divider } from 'antd';
 
 const formItemLayout = {
   labelCol: {
-    xs: { span: 0 },
-    sm: { span: 2 },
+    xs: { span: 3 },
+    sm: { span: 0 },
   },
   wrapperCol: {
-    xs: { span: 0 },
+    xs: { span: 5 },
     sm: { span: 10 },
   },
 };
@@ -43,7 +43,7 @@ export default class tambahMhs extends Component {
         <Form.Item label="NIM">
           <Input placeholder="NIM" id="NIM" />
         </Form.Item>
-        <Form.Item label="kode emay">
+        <Form.Item label="serial number">
           <Input placeholder="emay" id="emay" />
         </Form.Item>
       </Form>

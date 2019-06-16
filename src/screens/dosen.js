@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Divider } from "antd";
+import { Table, Divider, Button } from "antd";
 import Axios from "axios";
 
 
@@ -54,7 +54,13 @@ export default class dosen extends Component {
   }
   render() {
     return (
-      <Table columns={columns} dataSource={data} pagination={false} />
+      <div>
+        <Button type="primary" shape="round" icon="plus" onClick={this.onClick}>
+            tambah
+        </Button>
+        <Divider/>
+        <Table columns={columns} dataSource={data} pagination={false} />
+      </div>
     );
   }
 }
