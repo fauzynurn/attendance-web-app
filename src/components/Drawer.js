@@ -59,12 +59,7 @@ export default class Drawer extends Component {
               <span>Kelas</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="7">
-            <Link to="/tmbhmhs">
-              <Icon type="audit" />
-              <span>Add Mahasiswa</span>
-            </Link>
-          </Menu.Item>
+          
         </Menu>
       </Sider>
     );

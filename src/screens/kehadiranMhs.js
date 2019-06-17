@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Checkbox,Table, Tabs, DatePicker, Divider, Cascader } from 'antd';
+import { Checkbox,Table, Tabs, DatePicker, Divider, Cascader,Button } from 'antd';
+import { stat } from "fs";
+import Test from '../components/Test'
+
 
 const { MonthPicker } = DatePicker;
 const TabPane = Tabs.TabPane;
@@ -22,15 +25,40 @@ const options = [
   },
 ];
 
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
+const sesiOptions = [
+  {
+    value: '1',
+    label: '1',
+  },
+  {
+    value: '2',
+    label: '2',
+  },
+  {
+    value: '3',
+    label: '3',
+  },
+];
+
 
 function callback(key) {
   console.log(key);
 }
 
 export default class kehadiranMhs extends Component {
+  onTglChanged = (date, dateString) =>{
+    this.setState({
+      ...this.state,
+      tanggal: dateString
+    },() => console.log("TANGGAL : ",this.state.tanggal))
+  }
+
+  onSesiChanged = (value) => {
+    this.setState({
+      ...this.state,
+      sesi: value[0]
+    },() => console.log("SESI : ",this.state.sesi))
+  }
   onHadirChanged = (e, status) => {
     if(e.target.checked){
       console.log("HADIR")
@@ -63,7 +91,6 @@ export default class kehadiranMhs extends Component {
         data : tes
       })
     }
-    
   };
   
   onAlpaChanged = (e, status) => {
@@ -74,24 +101,55 @@ export default class kehadiranMhs extends Component {
         data : tes
       })
     }
-    
   };
+
+  onKelasChanged = (value) => {
+    this.setState({
+      ...this.state,
+      kelas: value[0]
+    },() => console.log("kelas : ",this.state.kelas))
+  } 
+
+  onClick = ()=>{
+    console.log("KELAS: ",this.state.kelas)
+    console.log("TANGGAL: ",this.state.tanggal)
+    console.log("SESI: ",this.state.sesi)
+    // const axios = require('axios');
+    // axios.post('http://192.168.43.214:8080/ubahkehadiran', {
+    //   tanggal: this.state.tanggal,
+    //   sesi: this.state.sesi,
+    //   kelas: this.state.kelas
+    // })
+    // .then(function (response) {
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+  };
+
   state ={
+    tanggal: "",
+    sesi: 0,
+    kelas: "",
     data : [{
       key: 1,
       NIM: '1615110${i}',
+      kelas : '3B',
       nama: 'budi pelo' ,
       status: false
     },
     {
       key: 2,
       NIM: '1615110${i}',
+      kelas : '3B',
       nama: 'budi pelo' ,
       status: "izin"
     },
     {
       key: 3,
       NIM: '1615110${i}',
+      kelas : '3B',
       nama: 'budi pelo' ,
       status: "alpa"
     }],
@@ -105,33 +163,16 @@ export default class kehadiranMhs extends Component {
         dataIndex: 'nama',
       },
       {
-        title: 'hadir',
-        dataIndex: 'status',
-        render: status => (
-          <Checkbox checked={status == "hadir" ? true : false} onChange={(e) => this.onHadirChanged(e,status)}/>
+        title:'kehadiran',
+        dataIndex: 'kehadiran',
+        render: (_,mahasiswa) => (
+          <Test tanggal={this.state.tanggal}
+                sesi={this.state.sesi}
+                nim={mahasiswa.NIM}
+                kelas={mahasiswa.kelas}
+                status={mahasiswa.status}/>
         )
-      },
-      {
-        title: 'sakit',
-        dataIndex: 'status',
-        render: status => (
-          <Checkbox checked={status == "sakit" ? true : false} onChange={(e) => this.onSakitChanged(e,status)}/>
-        )
-      },
-      {
-        title: 'izin',
-        dataIndex: 'status',
-        render: status => (
-          <Checkbox checked={status == "izin" ? true : false} onChange={(e) => this.onIzinChanged(e, status)}/>
-        )
-      },
-      {
-        title: 'alpa',
-        dataIndex: 'status',
-        render: status => (
-          <Checkbox checked={status == "alpa" ? true : false} onChange={(e) => this.onAlpaChanged(e, status)}/>
-        )
-      },
+      }
     ]
   }
 
@@ -139,21 +180,27 @@ export default class kehadiranMhs extends Component {
     return <div>
     <Tabs defaultActiveKey="1" onChange={callback}>
       <TabPane tab="Harian" key="1">
-        <Cascader options={options} onChange={onChange} placeholder="Please select a class" />
+        <Cascader onChange={this.onKelasChanged} options={options} placeholder="Pilih kelas" />
         <Divider type="vertical"/>
-        <DatePicker onChange={onChange} />
-        <Divider/>
-        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} />;
+        <DatePicker onChange={this.onTglChanged} format={'DD-MM-YYYY'}/>
+        <Divider type="vertical"/>
+        <Cascader onChange={this.onSesiChanged} options={sesiOptions} placeholder="Pilih sesi" />
+        <Divider type="vertical"/>
+        <Button type="primary" shape="round" icon="search" onClick={this.onClick}>
+          cari
+      </Button>
+      <Divider />
+        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} />
       </TabPane>
       <TabPane tab="Bulan" key="2">
-        <Cascader options={options} onChange={onChange} placeholder="Please select a class" />
+        <Cascader options={options} placeholder="Please select a class" />
         <Divider type="vertical"/>
-        <MonthPicker onChange={onChange} placeholder="Select month" />
+        <MonthPicker placeholder="Select month" />
         <Divider/>
-        <Table columns={this.state.columns} pagination={false}/>;
+        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} />
       </TabPane>
       <TabPane tab="Semester" key="3">
-        Content of Tab Pane 3
+        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} />
       </TabPane>
     </Tabs>
     </div>

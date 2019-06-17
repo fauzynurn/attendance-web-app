@@ -5,8 +5,8 @@ import Axios from "axios";
 
 const columns = [
   {
-    title: "NIK",
-    dataIndex: "nik"
+    title: "kode dosen",
+    dataIndex: "kode"
   },
   {
     title: "Nama",
@@ -44,6 +44,10 @@ for (let i = 0; i < 20; i++) {
 }
 
 export default class dosen extends Component {
+  onClick = () => {
+    console.log(this)
+    this.props.history.push('/tmbhdsn')
+  }
   state = {
     data: []
   };
