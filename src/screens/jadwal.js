@@ -84,8 +84,8 @@ render(){
     return<div>
     <Cascader options={options} onChange={onChange} placeholder="Please select a class" />
     <Divider type="vertical"/>
-    <Button type="primary" shape="round" icon="plus" onClick={this.onClick}>
-      tambah
+    <Button type="primary" shape="round" icon="edit" onClick={this.onClick}>
+      edit
     </Button>     
     <Divider/>
     <div style={{ background: '#ECECEC', padding: '30px' }}>

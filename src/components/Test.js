@@ -64,6 +64,11 @@ export default class Test extends Component {
     }
   
     render(){
-      return <Cascader onChange={this.onCascaderChanged} options={keterangan} defaultValue={['hadir']} placeholder="pilih keterangan" />
+      return <Cascader 
+        onChange={this.onCascaderChanged} 
+        options={keterangan} 
+        defaultValue={['hadir']}
+        allowClear={false} 
+        placeholder="pilih keterangan" />
     } 
   }

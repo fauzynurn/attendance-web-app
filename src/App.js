@@ -14,6 +14,7 @@ import tambahMhs from "./screens/tambahMhs";
 import Login from "./screens/login";
 import editJadwal from "./screens/editJadwal";
 import tambahDosen from "./screens/tambahDosen";
+import tambahKelas from "./screens/tambahKelas";
 
 //const axios = require("axios");
 const { Content } = Layout;
@@ -88,6 +89,9 @@ class App extends Component {
               <Route path="/tmbhmhs" component={tambahMhs}/>
               <Route path="/editjdwl" component={editJadwal}/>
               <Route path="/tmbhdsn" component={tambahDosen}/>
+              <Route path="/tmbhkls" component={tambahKelas}/>
+
+              
               
               
               

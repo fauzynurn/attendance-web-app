@@ -28,6 +28,11 @@ const columns = [
 
 
 export default class kelas extends Component {
+    onClick = () => {
+      console.log(this)
+      this.props.history.push('/tmbhkls')
+    }
+
   state = {
     data: []
   };
@@ -39,7 +44,7 @@ export default class kelas extends Component {
   render() {
     return (
       <div>
-      <Button type="primary" shape="round" icon="plus">
+      <Button type="primary" shape="round" icon="plus" onClick={this.onClick}>
           tambah
       </Button>
       <Divider/>

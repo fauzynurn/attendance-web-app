@@ -28,23 +28,19 @@ const options = [
   },
 ];
 
-export default class tambahMhs extends Component {
+export default class tambahkelas extends Component {
   
 
   render() {
     return (
-      <div>      
-      <Cascader options={options}  placeholder="Please select a class" />    
+      <div>         
       <Divider/>
       <Form {...formItemLayout}>
-        <Form.Item label="nama">
-          <Input placeholder="nama" id="nama" />
+        <Form.Item label="kode kelas">
+          <Input placeholder="kode kelas" id="kode" />
         </Form.Item>
-        <Form.Item label="NIM">
-          <Input placeholder="NIM" id="NIM" />
-        </Form.Item>
-        <Form.Item label="serial number">
-          <Input placeholder="serial number" id="s\n" />
+        <Form.Item label="kode beacon">
+          <Input placeholder="kode beacon" id="beacon" />
         </Form.Item>
       </Form>
       <Button type="primary" shape="round" icon="plus">
