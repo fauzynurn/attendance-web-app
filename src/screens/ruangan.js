@@ -27,7 +27,7 @@ const columns = [
 ];
 
 
-export default class kelas extends Component {
+export default class ruangan extends Component {
     onClick = () => {
       console.log(this)
       this.props.history.push('/tmbhkls')

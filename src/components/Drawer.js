@@ -54,9 +54,9 @@ export default class Drawer extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item key="6">
-            <Link to="/kls">
+            <Link to="/ruangan">
               <Icon type="audit" />
-              <span>Kelas</span>
+              <span>Ruangan</span>
             </Link>
           </Menu.Item>
           

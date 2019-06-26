@@ -134,23 +134,23 @@ export default class kehadiranMhs extends Component {
     kelas: "",
     data : [{
       key: 1,
-      NIM: '1615110${i}',
+      NIM: '16151101',
       kelas : '3B',
-      nama: 'budi pelo' ,
+      nama: 'budi adrianto' ,
       status: false
     },
     {
       key: 2,
-      NIM: '1615110${i}',
+      NIM: '16151102',
       kelas : '3B',
-      nama: 'budi pelo' ,
+      nama: 'budi pamungkas' ,
       status: "izin"
     },
     {
       key: 3,
-      NIM: '1615110${i}',
+      NIM: '16151103',
       kelas : '3B',
-      nama: 'budi pelo' ,
+      nama: 'budi sudarsono' ,
       status: "alpa"
     }],
     column : [

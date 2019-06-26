@@ -1,6 +1,28 @@
 import React, { Component } from "react";
-import { Table, Divider, Button, Cascader } from "antd";
+import { Table, Divider, Button, Cascader, Menu, Dropdown } from "antd";
 import Axios from "axios";
+import Password from "antd/lib/input/Password";
+
+
+const edit = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer">
+        edit
+      </a>
+    </Menu.Item>
+    </Menu>
+    );
+
+    const deleteHover = (
+      <Menu>
+        <Menu.Item>
+          <a target="_blank" rel="noopener noreferrer">
+            delete
+          </a>
+        </Menu.Item>
+        </Menu>
+        );
 
 
 const columns = [
@@ -27,9 +49,13 @@ const columns = [
     width: 150,
     render: () => 
     <div>
-      <a href="javascript:;">Edit</a>
+      <Dropdown overlay={edit} placement="topCenter">
+      <Button type="primary" shape="circle" icon="edit" size="small" />
+      </Dropdown>
       <Divider type="vertical"/>
-      <a href="javascript:;">Delete</a>
+      <Dropdown overlay={deleteHover} placement="topCenter">
+      <Button type="primary" shape="circle" icon="delete" size="small" />
+      </Dropdown>
     </div>
   },
 ];
@@ -38,6 +64,10 @@ const data = [];
 for (let i = 0; i < 10; i++) {
   data.push({
     key: i,
+    nim: '161511035',
+    nama: 'budi sudarsono',
+    Password: 'budirajinbelajar',
+    serialnumber: '123454334',
   });
 }
 

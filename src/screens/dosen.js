@@ -38,8 +38,8 @@ const data = [];
 for (let i = 0; i < 20; i++) {
   data.push({
     key: i,
-    NIK: '1615110${i}',
-    nama: 'budi pelo' 
+    kode: '1615110',
+    nama: 'budi sudarsono' 
   });
 }
 

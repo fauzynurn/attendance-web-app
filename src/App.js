@@ -7,14 +7,14 @@ import kehadiranMhs from "./screens/kehadiranMhs";
 import dosen from "./screens/dosen";
 import jadwal from "./screens/jadwal";
 import Home from "./screens/Home";
-import kelas from "./screens/kelas";
+import ruangan from "./screens/ruangan";
 import Drawer from "./components/Drawer";
 import Navbar from "./components/Navbar";
 import tambahMhs from "./screens/tambahMhs";
 import Login from "./screens/login";
 import editJadwal from "./screens/editJadwal";
 import tambahDosen from "./screens/tambahDosen";
-import tambahKelas from "./screens/tambahKelas";
+import tambahRuangan from "./screens/tambahRuangan";
 
 //const axios = require("axios");
 const { Content } = Layout;
@@ -85,11 +85,11 @@ class App extends Component {
               <Route path="/dsn" component={dosen} />
               <Route path="/kdmhs" component={kehadiranMhs} />
               <Route path="/jdwl" component={jadwal}/>
-              <Route path="/kls" component={kelas}/>
+              <Route path="/ruangan" component={ruangan}/>
               <Route path="/tmbhmhs" component={tambahMhs}/>
               <Route path="/editjdwl" component={editJadwal}/>
               <Route path="/tmbhdsn" component={tambahDosen}/>
-              <Route path="/tmbhkls" component={tambahKelas}/>
+              <Route path="/tmbhRuangan" component={tambahRuangan}/>
 
               
               
