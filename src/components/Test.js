@@ -1,23 +1,22 @@
 import React, { Component } from "react";
-import {
-  message, Cascader} from 'antd';
+import {message, Cascader} from 'antd';
 
 const keterangan = [
   {
-    value: 'hadir',
-    label: 'hadir',
+    value: 'Hadir',
+    label: 'Hadir',
   },
   {
-    value: 'sakit',
-    label: 'sakit',
+    value: 'Sakit',
+    label: 'Sakit',
   },
   {
-    value: 'izin',
-    label: 'izin',
+    value: 'Izin',
+    label: 'Izin',
   },
   {
-    value: 'alpa',
-    label: 'alpa',
+    value: 'Alpa',
+    label: 'Alpa',
   },
 ];
 
@@ -28,18 +27,17 @@ export default class Test extends Component {
         status:"",
         kelas: ""
     }
-    
 
-    componentWillMount(){
+    componentDidMount(){
         this.setState({
             nim : this.props.nim,
+            sesi : this.props.sesi,
             status : this.props.status,
             kelas : this.props.kelas
-        })
+        },() => console.log(this.state.status))
     }
 
-    onCascaderChanged = (value) => {
-    
+    onCascaderChanged = (value) => {  
       let x = {
         tanggal: this.props.tanggal,
         // kdkelas: this.state.kelas,
@@ -47,16 +45,17 @@ export default class Test extends Component {
         nim : this.state.nim,
         status : value[0]
       }
+
       console.log(x)
       const axios = require('axios');
-      axios.post('http://192.168.43.214:8080/ubahkehadiran', {
-        tanggal: this.props.tanggal,
-        sesi: this.props.sesi,
+      axios.put('http://192.168.43.214:8080/ubahkehadiran', {
+        tgl: this.props.tanggal,
+        jamKe: this.state.sesi,
         nim : this.state.nim,
-        status : value[0]
+        statusKehadiran : value[0]
       })
       .then(function (response) {
-        console.log(response);
+        console.log("RESPONSE",response);
       })
       .catch(function (error) {
         console.log(error);
@@ -64,11 +63,14 @@ export default class Test extends Component {
     }
   
     render(){
-      return <Cascader 
+      return (
+      <React.Fragment>
+        <Cascader 
         onChange={this.onCascaderChanged} 
         options={keterangan} 
-        defaultValue={['hadir']}
-        allowClear={false} 
-        placeholder="pilih keterangan" />
+        defaultValue={[this.props.status]}
+        allowClear={false} />
+      </React.Fragment>
+      )
     } 
   }

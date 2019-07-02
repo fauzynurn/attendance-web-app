@@ -10,7 +10,7 @@ const columns = [
   },
   {
     title: "kode beacon",
-    dataIndex: "mac"
+    dataIndex: "macAdress"
   },
   {
     title: 'Action',

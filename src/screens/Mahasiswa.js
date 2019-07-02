@@ -61,15 +61,7 @@ const columns = [
 ];
 
 const data = [];
-for (let i = 0; i < 10; i++) {
-  data.push({
-    key: i,
-    nim: '161511035',
-    nama: 'budi sudarsono',
-    Password: 'budirajinbelajar',
-    serialnumber: '123454334',
-  });
-}
+
 
 const options = [
   {
@@ -90,14 +82,51 @@ function onChange(date, dateString) {
   console.log(date, dateString);
 }
 
+const axios = require('axios');
+    axios.post('http://192.168.43.214:8080/getdaftarmhs', {
+      kdKelas: this.state.kelas
+    })
+    .then((response) => {
+      console.log(response);
+      var newArray = []
+      response.data.forEach((item) => {
+        item.key = item.nim
+        newArray.push(item)
+      })
+      this.setState({
+        ...this.state,
+        data : newArray
+      })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
 export default class Mahasiswa extends Component {
   state = {
     data: []
   };
   componentDidMount() {
-    Axios.get("http://192.168.100.8:8080/getAllCollege").then(res =>
-      this.setState({ ...this.state, data: res.data })
-    );
+    const axios = require('axios');
+    axios.post('http://10.10.67.219:8080/getdaftarmhs', {
+      kdKelas: this.state.kelas
+    })
+    .then((response) => {
+      console.log(response);
+      var newArray = []
+      response.data.forEach((item) => {
+        item.key = item.nim
+        newArray.push(item)
+      })
+      this.setState({
+        ...this.state,
+        data : newArray
+      })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
   onClick = () => {
     console.log(this)
@@ -112,7 +141,7 @@ export default class Mahasiswa extends Component {
       <Divider type="vertical"/>
       <Cascader options={options} onChange={onChange} placeholder="Please select a class" />
       <Divider/>
-      <Table style={{height:200}} columns={columns} dataSource={data} pagination={false} />
+      <Table style={{height:200}} columns={columns} dataSource={this.state.data} pagination={false} />
       </div>
     );
   }

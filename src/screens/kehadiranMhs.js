@@ -12,16 +12,12 @@ const TabPane = Tabs.TabPane;
 
 const options = [
   {
-    value: '1A',
-    label: '1A',
+    value: '3A',
+    label: '3A',
   },
   {
-    value: '1B',
-    label: '1B',
-  },
-  {
-    value: '2A',
-    label: '2A',
+    value: '3B',
+    label: '3B',
   },
 ];
 
@@ -49,59 +45,16 @@ export default class kehadiranMhs extends Component {
   onTglChanged = (date, dateString) =>{
     this.setState({
       ...this.state,
-      tanggal: dateString
-    },() => console.log("TANGGAL : ",this.state.tanggal))
+      tgl: dateString
+    },() => console.log("TANGGAL : ",this.state.tgl))
   }
 
   onSesiChanged = (value) => {
     this.setState({
       ...this.state,
-      sesi: value[0]
-    },() => console.log("SESI : ",this.state.sesi))
+      jamKe: value[0]
+    },() => console.log("SESI : ",this.state.jamKe))
   }
-  onHadirChanged = (e, status) => {
-    if(e.target.checked){
-      console.log("HADIR")
-      const tes = [...this.state.data]
-      tes[1].status = "hadir"
-      this.setState({
-        data : tes
-      },() => console.log(tes[1].status))
-    }
-  };
-  
-  onSakitChanged = (e, status) => {
-    console.log(e)
-    if(e.target.checked){
-      const tes = [...this.state.data]
-      tes[1].status = "sakit"
-      this.setState({
-        data : tes
-      })
-    }
-    
-  };
-  
-  onIzinChanged = (e, status) => {
-    console.log(e)
-    if(e.target.checked){
-      const tes = [...this.state.data]
-      tes[1].status = "izin"
-      this.setState({
-        data : tes
-      })
-    }
-  };
-  
-  onAlpaChanged = (e, status) => {
-    if(e.target.checked){
-      const tes = [...this.state.data]
-      tes[1].status = "alpa"
-      this.setState({
-        data : tes
-      })
-    }
-  };
 
   onKelasChanged = (value) => {
     this.setState({
@@ -111,66 +64,59 @@ export default class kehadiranMhs extends Component {
   } 
 
   onClick = ()=>{
-    console.log("KELAS: ",this.state.kelas)
-    console.log("TANGGAL: ",this.state.tanggal)
-    console.log("SESI: ",this.state.sesi)
-    // const axios = require('axios');
-    // axios.post('http://192.168.43.214:8080/ubahkehadiran', {
-    //   tanggal: this.state.tanggal,
-    //   sesi: this.state.sesi,
-    //   kelas: this.state.kelas
-    // })
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
+    let x = {
+      tanggal: this.state.tgl,
+      // kdkelas: this.state.kelas,
+      sesi: this.state.jamKe.toString(),
+      status : this.state.kelas
+    }
+
+    console.log("ONCLICK",x)
+    const axios = require('axios');
+    axios.post('http://192.168.43.214:8080/getabsensiharian', {
+      tgl: this.state.tgl,
+      jamKe: this.state.jamKe.toString(),
+      kdKelas: this.state.kelas
+    })
+    .then((response) => {
+      console.log(response);
+      var newArray = []
+      response.data.forEach((item) => {
+        item.key = item.nim
+        newArray.push(item)
+      })
+      this.setState({
+        ...this.state,
+        data : newArray
+      })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
 
   state ={
-    tanggal: "",
-    sesi: 0,
+    tgl: "",
+    jamKe: 0,
     kelas: "",
-    data : [{
-      key: 1,
-      NIM: '16151101',
-      kelas : '3B',
-      nama: 'budi adrianto' ,
-      status: false
-    },
-    {
-      key: 2,
-      NIM: '16151102',
-      kelas : '3B',
-      nama: 'budi pamungkas' ,
-      status: "izin"
-    },
-    {
-      key: 3,
-      NIM: '16151103',
-      kelas : '3B',
-      nama: 'budi sudarsono' ,
-      status: "alpa"
-    }],
+    data : [],
     column : [
       {
         title: 'NIM',
-        dataIndex: 'NIM',
+        dataIndex: 'nim',
       },
       {
         title: 'nama mahasiswa',
-        dataIndex: 'nama',
+        dataIndex: 'namaMhs',
       },
       {
         title:'kehadiran',
-        dataIndex: 'kehadiran',
-        render: (_,mahasiswa) => (
-          <Test tanggal={this.state.tanggal}
-                sesi={this.state.sesi}
-                nim={mahasiswa.NIM}
-                kelas={mahasiswa.kelas}
-                status={mahasiswa.status}/>
+        dataIndex: 'statusKehadiran',
+        render: (x,y,index) => (
+          <Test tanggal={this.state.tgl}
+                sesi={this.state.jamKe}
+                nim={this.state.data[index].nim}
+                status={this.state.data[index].statusKehadiran}/>
         )
       }
     ]
@@ -190,17 +136,7 @@ export default class kehadiranMhs extends Component {
           cari
       </Button>
       <Divider />
-        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} />
-      </TabPane>
-      <TabPane tab="Bulan" key="2">
-        <Cascader options={options} placeholder="Please select a class" />
-        <Divider type="vertical"/>
-        <MonthPicker placeholder="Select month" />
-        <Divider/>
-        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} />
-      </TabPane>
-      <TabPane tab="Semester" key="3">
-        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} />
+        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} indentSize={60} />
       </TabPane>
     </Tabs>
     </div>

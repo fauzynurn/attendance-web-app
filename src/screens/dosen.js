@@ -63,7 +63,7 @@ export default class dosen extends Component {
             tambah
         </Button>
         <Divider/>
-        <Table columns={columns} dataSource={data} pagination={false} />
+        <Table columns={columns} dataSource={data} width={100} pagination={false} />
       </div>
     );
   }
