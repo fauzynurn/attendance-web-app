@@ -3,59 +3,65 @@ import { Table, Divider, Button } from "antd";
 import Axios from "axios";
 
 
-const columns = [
-  {
-    title: "kode dosen",
-    dataIndex: "kode"
-  },
-  {
-    title: "Nama",
-    dataIndex: "nama"
-  },
-  {
-    title: "Password",
-    dataIndex: "password"
-  },
-  {
-    title: "S/N",
-    dataIndex: "serialnumber"
-  },
-  {
-    title: 'Action',
-    key: 'operation',
-    fixed: 'right',
-    width: 150,
-    render: () => 
-    <div>
-      <a href="javascript:;">Edit</a>
-      <Divider type="vertical"/>
-      <a href="javascript:;">Delete</a>
-    </div>
-  },
-];
-
-const data = [];
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i,
-    kode: '1615110',
-    nama: 'budi sudarsono' 
-  });
+export default class dosen extends Component {
+  state = {
+   column: [
+    {
+      title: "kode dosen",
+      dataIndex: "kdDosen"
+    },
+    {
+      title: "Nama",
+      dataIndex: "namaDosen"
+    },
+    {
+      title: "Password",
+      dataIndex: "passwordDosen"
+    },
+    {
+      title: "S/N",
+      dataIndex: "imei"
+    },
+    {
+      title: 'Action',
+      key: 'operation',
+      fixed: 'right',
+      width: 150,
+      render: () => 
+      <div>
+        <a href="javascript:;">Edit</a>
+        <Divider type="vertical"/>
+        <a href="javascript:;">Delete</a>
+      </div>
+    },
+  ]
 }
 
-export default class dosen extends Component {
   onClick = () => {
     console.log(this)
     this.props.history.push('/tmbhdsn')
   }
-  state = {
-    data: []
-  };
+
+
   componentDidMount() {
-    Axios.get("http://192.168.100.8:8080/getAllCollege").then(res =>
-      this.setState({ ...this.state, data: res.data })
-    );
-  }
+    Axios.get("http://10.10.67.219:8080/getdaftardosen")
+      .then(response => {
+        console.log(response);
+        var newArray = [];
+        response.data.forEach(item => {
+          item.key = item.kdDosen;
+          newArray.push(item);
+        });
+        this.setState({
+          ...this.state,
+          data: newArray
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+  })
+}
+
   render() {
     return (
       <div>
@@ -63,7 +69,7 @@ export default class dosen extends Component {
             tambah
         </Button>
         <Divider/>
-        <Table columns={columns} dataSource={data} width={100} pagination={false} />
+        <Table columns={this.state.column} dataSource={this.state.data} width={100} pagination={false} />
       </div>
     );
   }

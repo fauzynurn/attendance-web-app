@@ -73,7 +73,7 @@ export default class kehadiranMhs extends Component {
 
     console.log("ONCLICK",x)
     const axios = require('axios');
-    axios.post('http://192.168.43.214:8080/getabsensiharian', {
+    axios.post('http://10.10.67.219:8080/getabsensiharian', {
       tgl: this.state.tgl,
       jamKe: this.state.jamKe.toString(),
       kdKelas: this.state.kelas

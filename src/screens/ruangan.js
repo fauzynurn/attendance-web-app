@@ -3,28 +3,6 @@ import { Table, Divider, Button } from "antd";
 import Axios from "axios";
 
 
-const columns = [
-  {
-    title: "Kelas",
-    dataIndex: "kelas"
-  },
-  {
-    title: "kode beacon",
-    dataIndex: "macAdress"
-  },
-  {
-    title: 'Action',
-    key: 'operation',
-    fixed: 'right',
-    width: 150,
-    render: () => 
-    <div>
-      <a href="javascript:;">Edit</a>
-      <Divider type="vertical"/>
-      <a href="javascript:;">Delete</a>
-    </div>
-  },
-];
 
 
 export default class ruangan extends Component {
@@ -34,12 +12,52 @@ export default class ruangan extends Component {
     }
 
   state = {
-    data: []
+    column: [
+      {
+        title: "kode ruangan",
+        dataIndex: "kdRuangan"
+      },
+      {
+        title: "nama ruangan",
+        dataIndex: "namaRuangan"
+      },
+      {
+        title: "kode beacon",
+        dataIndex: "macAdress"
+      },
+      {
+        title: 'Action',
+        key: 'operation',
+        fixed: 'right',
+        width: 150,
+        render: () => 
+        <div>
+          <a href="javascript:;">Edit</a>
+          <Divider type="vertical"/>
+          <a href="javascript:;">Delete</a>
+        </div>
+      },
+    ]
   };
+
   componentDidMount() {
-    Axios.get("http://192.168.100.8:8080/getAllCollege").then(res =>
-      this.setState({ ...this.state, data: res.data })
-    );
+    Axios.get("http://10.10.67.219:8080/getdaftarruangan")
+      .then(response => {
+        console.log(response);
+        var newArray = [];
+        response.data.forEach(item => {
+          item.key = item.kdRuangan;
+          newArray.push(item);
+        });
+        this.setState({
+          ...this.state,
+          data: newArray
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+  })
+    
   }
   render() {
     return (
@@ -48,7 +66,7 @@ export default class ruangan extends Component {
           tambah
       </Button>
       <Divider/>
-      <Table style={{height:200}} columns={columns}  pagination={false} />
+      <Table style={{height:200}} columns={this.state.column}  dataSource={this.state.data}  pagination={false} />
       </div>
     );
   }

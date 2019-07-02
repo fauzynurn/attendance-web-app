@@ -23,41 +23,6 @@ const deleteHover = (
   </Menu>
 );
 
-// const columns = [
-//   {
-//     title: "NIM",
-//     dataIndex: "nim"
-//   },
-//   {
-//     title: "Nama",
-//     dataIndex: "nama"
-//   },
-//   {
-//     title: "Password",
-//     dataIndex: "password"
-//   },
-//   {
-//     title: "S/N",
-//     dataIndex: "serialnumber"
-//   },
-//   {
-//     title: 'Action',
-//     key: 'operation',
-//     fixed: 'right',
-//     width: 150,
-//     render: () =>
-//     <div>
-//       <Dropdown overlay={edit} placement="topCenter">
-//       <Button type="primary" shape="circle" icon="edit" size="small" />
-//       </Dropdown>
-//       <Divider type="vertical"/>
-//       <Dropdown overlay={deleteHover} placement="topCenter">
-//       <Button type="primary" shape="circle" icon="delete" size="small" />
-//       </Dropdown>
-//     </div>
-//   },
-// ];
-
 const options = [
   {
     value: "1A",
@@ -68,8 +33,8 @@ const options = [
     label: "1B"
   },
   {
-    value: "2A",
-    label: "2A"
+    value: "3A",
+    label: "3A"
   },
   {
     value: "3B",
@@ -80,26 +45,6 @@ const options = [
 function onChange(date, dateString) {
   console.log(date, dateString);
 }
-
-// const axios = require('axios');
-//     axios.post('http://192.168.43.214:8080/getdaftarmhs', {
-//       kdKelas: this.state.kelas
-//     })
-//     .then((response) => {
-//       console.log(response);
-//       var newArray = []
-//       response.data.forEach((item) => {
-//         item.key = item.nim
-//         newArray.push(item)
-//       })
-//       this.setState({
-//         ...this.state,
-//         data : newArray
-//       })
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
 
 export default class Mahasiswa extends Component {
   onKelasChanged = value => {
@@ -154,7 +99,7 @@ export default class Mahasiswa extends Component {
   onClickSearch = () => {
     const axios = require("axios");
     axios
-      .post("http://192.168.43.214:8080/getdaftarmhs", {
+      .post("http://10.10.67.219:8080/getdaftarmhs", {
         kdKelas: this.state.kelas
       })
       .then(response => {

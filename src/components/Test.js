@@ -48,7 +48,7 @@ export default class Test extends Component {
 
       console.log(x)
       const axios = require('axios');
-      axios.put('http://192.168.43.214:8080/ubahkehadiran', {
+      axios.put('http://10.10.67.219:8080/ubahkehadiran', {
         tgl: this.props.tanggal,
         jamKe: this.state.sesi,
         nim : this.state.nim,
