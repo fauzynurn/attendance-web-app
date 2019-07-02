@@ -72,6 +72,10 @@ const options = [
     label: "2A"
   },
   {
+    value: "3A",
+    label: "3A"
+  },
+  {
     value: "3B",
     label: "3B"
   }
