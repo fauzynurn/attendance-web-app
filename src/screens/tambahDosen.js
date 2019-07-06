@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Form, Input, Button, Cascader, Divider } from 'antd';
+import {URL} from '../components/API';
 
 const formItemLayout = {
   labelCol: {

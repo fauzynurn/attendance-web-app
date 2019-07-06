@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Table, Divider, Button } from "antd";
 import Axios from "axios";
+import {URL} from '../components/API';
 
 
 
@@ -41,7 +42,7 @@ export default class ruangan extends Component {
   };
 
   componentDidMount() {
-    Axios.get("http://10.10.67.219:8080/getdaftarruangan")
+    Axios.get(URL + "/getdaftarruangan")
       .then(response => {
         console.log(response);
         var newArray = [];

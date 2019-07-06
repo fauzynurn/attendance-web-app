@@ -1,145 +1,134 @@
 import React, { Component } from "react";
-import { Checkbox,Table, Tabs, DatePicker, Divider, Cascader,Button } from 'antd';
-import { stat } from "fs";
-import Test from '../components/Test'
-
+import {Table, Tabs, DatePicker, Divider, Cascader, Button} from "antd";
+import Test from "../components/Test";
+import {URL} from '../components/API';
+import {options, sesi} from '../components/dataSet';
 
 const { MonthPicker } = DatePicker;
 const TabPane = Tabs.TabPane;
-
-
-
-
-const options = [
-  {
-    value: '3A',
-    label: '3A',
-  },
-  {
-    value: '3B',
-    label: '3B',
-  },
-];
-
-const sesiOptions = [
-  {
-    value: '1',
-    label: '1',
-  },
-  {
-    value: '2',
-    label: '2',
-  },
-  {
-    value: '3',
-    label: '3',
-  },
-];
-
+const Column = Table;
 
 function callback(key) {
   console.log(key);
 }
 
 export default class kehadiranMhs extends Component {
-  onTglChanged = (date, dateString) =>{
-    this.setState({
-      ...this.state,
-      tgl: dateString
-    },() => console.log("TANGGAL : ",this.state.tgl))
-  }
-
-  onSesiChanged = (value) => {
-    this.setState({
-      ...this.state,
-      jamKe: value[0]
-    },() => console.log("SESI : ",this.state.jamKe))
-  }
-
-  onKelasChanged = (value) => {
-    this.setState({
-      ...this.state,
-      kelas: value[0]
-    },() => console.log("kelas : ",this.state.kelas))
-  } 
-
-  onClick = ()=>{
-    let x = {
-      tanggal: this.state.tgl,
-      // kdkelas: this.state.kelas,
-      sesi: this.state.jamKe.toString(),
-      status : this.state.kelas
-    }
-
-    console.log("ONCLICK",x)
-    const axios = require('axios');
-    axios.post('http://10.10.67.219:8080/getabsensiharian', {
-      tgl: this.state.tgl,
-      jamKe: this.state.jamKe.toString(),
-      kdKelas: this.state.kelas
-    })
-    .then((response) => {
-      console.log(response);
-      var newArray = []
-      response.data.forEach((item) => {
-        item.key = item.nim
-        newArray.push(item)
-      })
-      this.setState({
-        ...this.state,
-        data : newArray
-      })
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  };
-
-  state ={
+  state = {
     tgl: "",
     jamKe: 0,
     kelas: "",
-    data : [],
-    column : [
-      {
-        title: 'NIM',
-        dataIndex: 'nim',
-      },
-      {
-        title: 'nama mahasiswa',
-        dataIndex: 'namaMhs',
-      },
-      {
-        title:'kehadiran',
-        dataIndex: 'statusKehadiran',
-        render: (x,y,index) => (
-          <Test tanggal={this.state.tgl}
-                sesi={this.state.jamKe}
-                nim={this.state.data[index].nim}
-                status={this.state.data[index].statusKehadiran}/>
-        )
-      }
-    ]
+    data: []
+  };
+
+  constructor(props){
+    super(props)
+    this.tgl = ""
+    this.kelas = ""
+    this.jamKe = ""
   }
 
-  render(){
-    return <div>
-    <Tabs defaultActiveKey="1" onChange={callback}>
-      <TabPane tab="Harian" key="1">
-        <Cascader onChange={this.onKelasChanged} options={options} placeholder="Pilih kelas" />
-        <Divider type="vertical"/>
-        <DatePicker onChange={this.onTglChanged} format={'DD-MM-YYYY'}/>
-        <Divider type="vertical"/>
-        <Cascader onChange={this.onSesiChanged} options={sesiOptions} placeholder="Pilih sesi" />
-        <Divider type="vertical"/>
-        <Button type="primary" shape="round" icon="search" onClick={this.onClick}>
-          cari
-      </Button>
-      <Divider />
-        <Table columns={this.state.column}  dataSource={this.state.data}  pagination={false} indentSize={60} />
-      </TabPane>
-    </Tabs>
-    </div>
-  } 
+  doRequest = (value) => {
+    console.log("AJAJA",this)
+    const axios = require("axios");
+    axios
+      .post(URL + "/getabsensiharian", {
+        tgl: this.tgl,
+        jamKe: this.jamKe[0],
+        kdKelas: this.kelas[0]
+      })
+      .then(response => {
+        console.log(response);
+        var newArray = [];
+        response.data.forEach(item => {
+          item.key = item.nim;
+          newArray.push(item);
+        });
+        if(value === 1){
+          this.setState({
+            ...this.state,
+            data: newArray,
+            tgl : this.tgl
+          });
+        }else if(value === 2){
+          this.setState({
+            ...this.state,
+            data: newArray,
+            jamKe : this.jamKe
+          });
+        }else{
+          this.setState({
+            ...this.state,
+            kelas: this.kelas
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  componentDidMount(){
+    this.doRequest()
+  }
+
+  onTglChanged = (date, dateString) => {
+    this.tgl = dateString
+    this.doRequest(1)
+  };
+
+  onSesiChanged = value => {
+    this.jamKe = value
+    this.doRequest(2)
+  };
+
+  onKelasChanged = value => {
+    this.kelas = value
+    this.doRequest(3)
+  };
+
+  render() {
+    return (
+      <div>
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <TabPane tab="Harian" key="1">
+            <Cascader
+              onChange={this.onKelasChanged}
+              options={options}
+              placeholder="Pilih kelas"
+            />
+            <Divider type="vertical" />
+            <DatePicker onChange={this.onTglChanged} format={"DD-MM-YYYY"} />
+            <Divider type="vertical" />
+            <Cascader
+              onChange={this.onSesiChanged}
+              options={sesi}
+              placeholder="Pilih sesi"
+            />
+            <Divider type="vertical" />
+            <Divider />
+            <Table
+              dataSource={this.state.data}
+              pagination={false}
+              indentSize={60}
+            >
+              <Column title="NIM" dataIndex="nim" />
+              <Column title="Nama" dataIndex="namaMhs" />
+              <Column
+                title="Status"
+                dataIndex="statusKehadiran"
+                render={(x, record) => (
+                  <Test
+                    tanggal={this.state.tgl}
+                    sesi={this.state.jamKe}
+                    nim={record.nim}
+                    status={record.statusKehadiran}
+                  />
+                )}
+              />
+            </Table>
+          </TabPane>
+        </Tabs>
+      </div>
+    );
+  }
 }
-  

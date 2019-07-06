@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { Table, Divider, Button, Cascader, Menu, Dropdown } from "antd";
+import { Table, Divider, Button, Cascader, Menu, Dropdown, Popconfirm } from "antd";
 import Axios from "axios";
 import Password from "antd/lib/input/Password";
+import {URL} from '../components/API';
+import {options} from '../components/dataSet';
+
 
 const edit = (
   <Menu>
@@ -13,34 +16,6 @@ const edit = (
   </Menu>
 );
 
-const deleteHover = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer">
-        delete
-      </a>
-    </Menu.Item>
-  </Menu>
-);
-
-const options = [
-  {
-    value: "1A",
-    label: "1A"
-  },
-  {
-    value: "1B",
-    label: "1B"
-  },
-  {
-    value: "3A",
-    label: "3A"
-  },
-  {
-    value: "3B",
-    label: "3B"
-  }
-];
 
 function onChange(date, dateString) {
   console.log(date, dateString);
@@ -82,14 +57,14 @@ export default class Mahasiswa extends Component {
               <Button type="primary" shape="circle" icon="edit" size="small" />
             </Dropdown>
             <Divider type="vertical" />
-            <Dropdown overlay={deleteHover} placement="topCenter">
+            <Popconfirm title="Are you sure？" okText="Yes" cancelText="No">
               <Button
                 type="primary"
                 shape="circle"
                 icon="delete"
                 size="small"
               />
-            </Dropdown>
+            </Popconfirm>
           </div>
         )
       }
@@ -99,7 +74,7 @@ export default class Mahasiswa extends Component {
   onClickSearch = () => {
     const axios = require("axios");
     axios
-      .post("http://10.10.67.219:8080/getdaftarmhs", {
+      .post(URL +  "/getdaftarmhs", {
         kdKelas: this.state.kelas
       })
       .then(response => {
@@ -134,7 +109,7 @@ export default class Mahasiswa extends Component {
         <Cascader
           options={options}
           onChange={this.onKelasChanged}
-          placeholder="Please select a class"
+          placeholder="Pilih kelas"
         />
         <Divider type="vertical" />
         <Button

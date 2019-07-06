@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Form, Input, Button, Cascader, Divider } from 'antd';
+import { Form, Input, Button, Cascader, Divider, message } from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -28,8 +28,32 @@ const options = [
   },
 ];
 
+function callback(key) {
+  console.log(key);
+}
+
 export default class tambahMhs extends Component {
-  
+  onChange = e => {
+    const axios = require("axios");
+    axios
+      .put("http://10.10.67.219:8080/ubahkehadiran", {
+        tgl: this.state.tanggal,
+        jamKe: this.state.sesi,
+        nim: this.state.nim,
+        statusKehadiran: e.target.value
+      })
+      .then(function(response) {
+        message.info("Proses update berhasil!");
+        this.setState({
+          ...this.state,
+          status: e.target.value
+        });
+        console.log("RESPONSE", response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };  
 
   render() {
     return (

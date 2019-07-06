@@ -1,27 +1,23 @@
 import React, { Component } from "react";
-import { Table, Divider, Button } from "antd";
+import { Table, Divider, Button, Popconfirm } from "antd";
 import Axios from "axios";
 import {URL} from '../components/API';
 
 
-export default class dosen extends Component {
+export default class waliDosen extends Component {
   state = {
    column: [
     {
-      title: "kode",
-      dataIndex: "kdDosen"
+      title: "kelas",
+      dataIndex: "kdKelas"
     },
     {
-      title: "Nama",
-      dataIndex: "namaDosen"
+      title: "program studi",
+      dataIndex: "prodi"
     },
     {
-      title: "Password",
-      dataIndex: "passwordDosen"
-    },
-    {
-      title: "S/N",
-      dataIndex: "imei"
+      title: "wali dosen",
+      dataIndex: "dosenWali"
     },
     {
       title: 'Action',
@@ -32,7 +28,9 @@ export default class dosen extends Component {
       <div>
         <a href="javascript:;">Edit</a>
         <Divider type="vertical"/>
-        <a href="javascript:;">Delete</a>
+        <Popconfirm title="data akan dihapus？" okText="Ya" cancelText="Tidak">
+        <a href="javascript:;">Hapus</a>
+        </Popconfirm>
       </div>
     },
   ]
@@ -45,12 +43,12 @@ export default class dosen extends Component {
 
 
   componentDidMount() {
-    Axios.get(URL + "/getdaftardosen")
+    Axios.get(URL + "/getdaftarkelas")
       .then(response => {
         console.log(response);
         var newArray = [];
         response.data.forEach(item => {
-          item.key = item.kdDosen;
+          item.key = item.kdKelas;
           newArray.push(item);
         });
         this.setState({

@@ -1,22 +1,7 @@
 import React, { Component } from "react";
 import { Card, Col, Button, Divider,Cascader, Table } from 'antd';
-
-
-const options = [
-    {
-      value: '1A',
-      label: '1A',
-    },
-    {
-      value: '1B',
-      label: '1B',
-    },
-    {
-      value: '3B',
-      label: '3B',
-    },
-  ];
-
+import {URL} from '../components/API';
+import {options} from '../components/dataSet';
 
 
 
@@ -55,7 +40,7 @@ export default class jadwal extends Component {
   onClickSearch = () => {
     const axios = require("axios");
     axios
-      .post("http://10.10.67.219:8080/getdaftarjadwal", {
+      .post(URL + "/getdaftarjadwal", {
         kdKelas: this.state.kelas
       })
       .then(response => {
@@ -77,14 +62,16 @@ export default class jadwal extends Component {
 
 render(){
     return<div>
-    <Cascader options={options} placeholder="Please select a class" />
+     <Button type="primary" shape="round" icon="edit" onClick={this.onClick}>
+      edit
+    </Button>   
+    <Divider type="vertical"/> 
+    <Cascader options={options} placeholder="pilih kelas" />
     <Divider type="vertical"/>
     <Button type="primary" shape="circle" icon="search" onClick={this.onClickSearch}/>
-    <Divider type="vertical"/>     
         
-    <Button type="primary" shape="round" icon="edit" onClick={this.onClick}>
-      edit
-    </Button>     
+        
+       
     <Divider/>
     <div style={{ background: '#ECECEC', padding: '30px' }}>
     <Card title="senin" bordered={false} style={{ width: 900 }}>

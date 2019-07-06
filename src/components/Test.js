@@ -1,76 +1,60 @@
 import React, { Component } from "react";
-import {message, Cascader} from 'antd';
-
-const keterangan = [
-  {
-    value: 'Hadir',
-    label: 'Hadir',
-  },
-  {
-    value: 'Sakit',
-    label: 'Sakit',
-  },
-  {
-    value: 'Izin',
-    label: 'Izin',
-  },
-  {
-    value: 'Alpa',
-    label: 'Alpa',
-  },
-];
+import { message, Radio } from "antd";
+import {URL} from '../components/API';
 
 export default class Test extends Component {
-    
-    state = {
-        nim:"",
-        status:"",
-        kelas: ""
-    }
+  state = {
+    nim: "",
+    status: "",
+    sesi: "",
+    tanggal: ""
+  };
 
-    componentDidMount(){
+  
+  onChange = e => {
+    const axios = require("axios");
+    console.log("mmm",this.state)
+    axios.put(URL + "/ubahkehadiran", {
+        tgl: this.state.tanggal,
+        jamKe: this.state.sesi[0],
+        nim: this.state.nim,
+        statusKehadiran: e.target.value
+      }).then((response) => {
         this.setState({
-            nim : this.props.nim,
-            sesi : this.props.sesi,
-            status : this.props.status,
-            kelas : this.props.kelas
-        },() => console.log(this.state.status))
-    }
-
-    onCascaderChanged = (value) => {  
-      let x = {
-        tanggal: this.props.tanggal,
-        // kdkelas: this.state.kelas,
-        sesi: this.props.sesi,
-        nim : this.state.nim,
-        status : value[0]
-      }
-
-      console.log(x)
-      const axios = require('axios');
-      axios.put('http://10.10.67.219:8080/ubahkehadiran', {
-        tgl: this.props.tanggal,
-        jamKe: this.state.sesi,
-        nim : this.state.nim,
-        statusKehadiran : value[0]
-      })
-      .then(function (response) {
-        console.log("RESPONSE",response);
-      })
-      .catch(function (error) {
+          status: e.target.value
+        },() => {console.log("CALLBACK",this.state); message.info("Proses update berhasil!")});
+      }).catch(function(error) {
         console.log(error);
       });
+  };
+
+  static getDerivedStateFromProps = (props, state) => {
+    console.log("PROPS",props)
+    console.log("STATE",state)
+    if(props.tanggal !== state.tanggal || props.sesi !== state.sesi){
+      console.log("1")
+      return {
+        nim: props.nim,
+        sesi: props.sesi,
+        status : props.status,
+        tanggal: props.tanggal
+      };
+    }else{
+      console.log("2")
+      return null
     }
-  
-    render(){
-      return (
+}
+
+  render() {
+    return (
       <React.Fragment>
-        <Cascader 
-        onChange={this.onCascaderChanged} 
-        options={keterangan} 
-        defaultValue={[this.props.status]}
-        allowClear={false} />
+        <Radio.Group onChange={this.onChange} value={this.state.status}>
+          <Radio value={"Hadir"}>Hadir</Radio>
+          <Radio value={"Sakit"}>Sakit</Radio>
+          <Radio value={"Izin"}>Izin</Radio>
+          <Radio value={"Alpa"}>Alpa</Radio>
+        </Radio.Group>
       </React.Fragment>
-      )
-    } 
+    );
   }
+}
