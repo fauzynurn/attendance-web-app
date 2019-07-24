@@ -15,12 +15,13 @@ export default class Test extends Component {
     const axios = require("axios");
     console.log("mmm",this.state)
     axios.put(URL + "/ubahkehadiran", {
-        tgl: this.state.tanggal,
+        tgl: "10-07-2019",
         jamKe: this.state.sesi[0],
         nim: this.state.nim,
         statusKehadiran: e.target.value
       }).then((response) => {
         this.setState({
+          ...this.state,
           status: e.target.value
         },() => {console.log("CALLBACK",this.state); message.info("Proses update berhasil!")});
       }).catch(function(error) {
@@ -31,13 +32,13 @@ export default class Test extends Component {
   static getDerivedStateFromProps = (props, state) => {
     console.log("PROPS",props)
     console.log("STATE",state)
-    if(props.tanggal !== state.tanggal || props.sesi !== state.sesi){
+    if(props.tgl !== state.tanggal || props.sesi !== state.sesi){
       console.log("1")
       return {
         nim: props.nim,
         sesi: props.sesi,
         status : props.status,
-        tanggal: props.tanggal
+        tanggal: props.tgl
       };
     }else{
       console.log("2")

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Table, Divider, Button, Cascader, Menu, Dropdown, Popconfirm } from "antd";
 import Axios from "axios";
-import Password from "antd/lib/input/Password";
 import {URL} from '../components/API';
 import {options} from '../components/dataSet';
 

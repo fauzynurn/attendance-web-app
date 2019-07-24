@@ -6,7 +6,6 @@ import {options} from '../components/dataSet';
 
 
 export default class jadwal extends Component {
-
   state = {
     column : [
       {
@@ -31,6 +30,15 @@ export default class jadwal extends Component {
       },
     ]
   }
+  onKelasChanged = value => {
+    this.setState(
+      {
+        ...this.state,
+        kelas: value[0]
+      },
+      () => console.log("kelas : ", this.state.kelas)
+    );
+  };
 
   onClick = () => {
     console.log(this)
@@ -39,15 +47,14 @@ export default class jadwal extends Component {
 
   onClickSearch = () => {
     const axios = require("axios");
-    axios
-      .post(URL + "/getdaftarjadwal", {
-        kdKelas: this.state.kelas
+    axios.post(URL + "/getdaftarjadwal", {
+        kdKelas: this.state.kelas 
       })
       .then(response => {
-        console.log(response);
+        console.log(this.state.kelas);
         var newArray = [];
         response.data.forEach(item => {
-          item.key = item.kdMatkul;
+          item.key = item.hari;
           newArray.push(item);
         });
         this.setState({
@@ -66,7 +73,11 @@ render(){
       edit
     </Button>   
     <Divider type="vertical"/> 
-    <Cascader options={options} placeholder="pilih kelas" />
+    <Cascader
+          options={options}
+          onChange={this.onKelasChanged}
+          placeholder="Pilih kelas"
+        />
     <Divider type="vertical"/>
     <Button type="primary" shape="circle" icon="search" onClick={this.onClickSearch}/>
         

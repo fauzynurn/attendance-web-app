@@ -1,15 +1,22 @@
 import React, { Component } from "react";
-import { Table, Divider, Button } from "antd";
+import { Table, Divider, Button, Dropdown, Popconfirm, Menu } from "antd";
 import Axios from "axios";
 import {URL} from '../components/API';
 
-
-
+const edit = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer">
+        edit
+      </a>
+    </Menu.Item>
+  </Menu>
+);
 
 export default class ruangan extends Component {
     onClick = () => {
       console.log(this)
-      this.props.history.push('/tmbhkls')
+      this.props.history.push('/tmbhruangan')
     }
 
   state = {
@@ -33,9 +40,18 @@ export default class ruangan extends Component {
         width: 150,
         render: () => 
         <div>
-          <a href="javascript:;">Edit</a>
-          <Divider type="vertical"/>
-          <a href="javascript:;">Delete</a>
+          <Dropdown overlay={edit} placement="topCenter">
+              <Button type="primary" shape="circle" icon="edit" size="small" />
+            </Dropdown>
+            <Divider type="vertical" />
+            <Popconfirm title="Are you sure？" okText="Yes" cancelText="No">
+              <Button
+                type="primary"
+                shape="circle"
+                icon="delete"
+                size="small"
+              />
+            </Popconfirm>
         </div>
       },
     ]

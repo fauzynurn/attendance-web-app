@@ -92,6 +92,7 @@ class App extends Component {
               <Route path="/tmbhdsn" component={tambahDosen}/>
               <Route path="/tmbhRuangan" component={tambahRuangan}/>
               <Route path="/walidsn" component={waliDosen}/>
+              <Route path="/tmbhruangan" component={tambahRuangan}/>
 
               
               

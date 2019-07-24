@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Form, Input, Button, Cascader, Divider } from 'antd';
+import { Form, Input, Button, Divider } from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -12,23 +12,7 @@ const formItemLayout = {
   },
 };
 
-
-const options = [
-  {
-    value: '1A',
-    label: '1A',
-  },
-  {
-    value: '1B',
-    label: '1B',
-  },
-  {
-    value: '2A',
-    label: '2A',
-  },
-];
-
-export default class tambahkelas extends Component {
+export default class tambahRuangan extends Component {
   
 
   render() {
@@ -36,8 +20,8 @@ export default class tambahkelas extends Component {
       <div>         
       <Divider/>
       <Form {...formItemLayout}>
-        <Form.Item label="kode kelas">
-          <Input placeholder="kode kelas" id="kode" />
+        <Form.Item label="kode ruangan">
+          <Input placeholder="kode ruangan" id="kode" />
         </Form.Item>
         <Form.Item label="kode beacon">
           <Input placeholder="kode beacon" id="beacon" />
@@ -47,7 +31,6 @@ export default class tambahkelas extends Component {
           simpan
       </Button>
     </div>
-
     );
   }
 }

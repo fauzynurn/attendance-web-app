@@ -1,8 +1,17 @@
 import React, { Component } from "react";
-import { Table, Divider, Button, Popconfirm } from "antd";
+import { Table, Divider, Button, Popconfirm, Dropdown, Menu } from "antd";
 import Axios from "axios";
 import {URL} from '../components/API';
 
+const edit = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer">
+        edit
+      </a>
+    </Menu.Item>
+  </Menu>
+);
 
 export default class waliDosen extends Component {
   state = {
@@ -26,11 +35,18 @@ export default class waliDosen extends Component {
       width: 150,
       render: () => 
       <div>
-        <a href="javascript:;">Edit</a>
-        <Divider type="vertical"/>
-        <Popconfirm title="data akan dihapus？" okText="Ya" cancelText="Tidak">
-        <a href="javascript:;">Hapus</a>
-        </Popconfirm>
+         <Dropdown overlay={edit} placement="topCenter">
+              <Button type="primary" shape="circle" icon="edit" size="small" />
+            </Dropdown>
+            <Divider type="vertical" />
+            <Popconfirm title="Are you sure？" okText="Yes" cancelText="No">
+              <Button
+                type="primary"
+                shape="circle"
+                icon="delete"
+                size="small"
+              />
+            </Popconfirm>
       </div>
     },
   ]
