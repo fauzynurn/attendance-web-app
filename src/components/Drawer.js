@@ -58,14 +58,7 @@ export default class Drawer extends Component {
               <Icon type="audit" />
               <span>Ruangan</span>
             </Link>
-          </Menu.Item>
-          <Menu.Item key="7">
-            <Link to="/walidsn">
-              <Icon type="audit" />
-              <span>wali dosen</span>
-            </Link>
-          </Menu.Item>
-          
+          </Menu.Item> 
         </Menu>
       </Sider>
     );

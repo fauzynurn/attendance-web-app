@@ -1,26 +1,36 @@
 import React, { Component } from "react";
-import { Table, Divider, Button, Cascader, Menu, Dropdown, Popconfirm } from "antd";
-import Axios from "axios";
+import {Col, Table, Divider, Button, Cascader, Upload, message, Icon, Popconfirm } from "antd";
 import {URL} from '../components/API';
 import {options} from '../components/dataSet';
 
-
-const edit = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer">
-        edit
-      </a>
-    </Menu.Item>
-  </Menu>
-);
 
 
 function onChange(date, dateString) {
   console.log(date, dateString);
 }
 
+const props = {
+  name: 'file',
+  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  headers: {
+    authorization: 'authorization-text',
+  },
+  onUploadChange(info) {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+};
+
+
 export default class Mahasiswa extends Component {
+
+  
   onKelasChanged = value => {
     this.setState(
       {
@@ -30,6 +40,8 @@ export default class Mahasiswa extends Component {
       () => console.log("kelas : ", this.state.kelas)
     );
   };
+
+  
 
   state = {
     column: [
@@ -52,9 +64,6 @@ export default class Mahasiswa extends Component {
         width: 150,
         render: () => (
           <div>
-            <Dropdown overlay={edit} placement="topCenter">
-              <Button type="primary" shape="circle" icon="edit" size="small" />
-            </Dropdown>
             <Divider type="vertical" />
             <Popconfirm title="Are you sure？" okText="Yes" cancelText="No">
               <Button
@@ -100,24 +109,29 @@ export default class Mahasiswa extends Component {
   render() {
     return (
       <div>
-        <Button type="primary" shape="round" icon="plus" onClick={this.onClick}>
-          tambah
-        </Button>
-
-        <Divider type="vertical" />
-        <Cascader
-          options={options}
-          onChange={this.onKelasChanged}
-          placeholder="Pilih kelas"
-        />
-        <Divider type="vertical" />
-        <Button
-          type="primary"
-          shape="round"
-          icon="search"
-          onClick={this.onClickSearch}
-        />
-        <Divider />
+        <Col span={20}>
+          <Cascader
+            options={options}
+            onChange={this.onKelasChanged}
+            placeholder="Pilih kelas"
+          />
+          <Divider type="vertical" />
+          <Button
+            type="primary"
+            shape="round"
+            icon="search"
+            onClick={this.onClickSearch}
+          />
+          </Col>
+        <Col span={4}>
+        <Upload {...props}   >
+          <Button>
+            <Icon type="upload" /> Click to Upload
+          </Button>
+        </Upload>  
+        </Col>
+        <br></br>
+        <Divider/> 
         <Table
           style={{ height: 200 }}
           columns={this.state.column}

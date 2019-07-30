@@ -20,15 +20,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <div>
-        <Header style={{ background: "#fff", paddingLeft : 1020 }}>
-        <div style={{marginRight: 200}}>
-          <Dropdown overlay={menu} placement={"bottomCenter"}>
-            <Button type="primary" shape="circle" value="large">
-              <Icon type="user" />
-            </Button>
-          </Dropdown>
-          </div>
-        </Header>
+        <Header style={{ background: "#fff", paddingLeft : 1020 }}/>
       </div>
     );
   }
