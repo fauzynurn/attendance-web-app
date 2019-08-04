@@ -1,36 +1,87 @@
 import React, { Component } from "react";
-import {Col, Table, Divider, Button, Cascader, Upload, message, Icon, Popconfirm } from "antd";
+import {Col, Table, Divider, Button, Cascader, message  } from "antd";
 import {URL} from '../components/API';
 import {options} from '../components/dataSet';
+import CSVReader from 'react-csv-reader';
 
 
-
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
-
-const props = {
-  name: 'file',
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  headers: {
-    authorization: 'authorization-text',
-  },
-  onUploadChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
+const handleForce = data => {
+  const axios = require("axios");
+  console.log(data)
+  const list = data.map(item => {
+    return {
+     nim : item[0],
+     namaMhs : item[1],
+     kdKelas : item[2],
     }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
+  }
+  )
+  list.shift()
+  list.pop()
+  console.log("LIST",list)
+  axios.post(URL + "/importmhs", {
+    listMhs : list
+    }).then(response => {
+      console.log(response); message.info("Proses import berhasil!")
+
+    })
+    .catch(function(error) {
+      console.log(error); message.error("Proses import gagal!")
+    });
 };
 
+const handleDarkSideForce = error => {
+  console.log(error)
+}
 
 export default class Mahasiswa extends Component {
 
-  
+  state = {
+    data : []
+  };
+  column = [
+    {
+      title: "NIM",
+      dataIndex: "nim"
+    },
+    {
+      title: "Nama",
+      dataIndex: "nama"
+    },
+    {
+      title: "S/N",
+      dataIndex: "imei"
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      fixed: "right",
+      width : 100,
+      render: (x,y,index) => (
+        <div>
+            <Button
+              type="primary"
+              shape="circle"
+              icon="edit"
+              size="small"
+              onClick={() => this.onClickReset(index)}
+            />
+        </div>
+      )
+    }
+  ]
+  onClickReset = (index) => {
+    // console.log(this.state.data[index].nama)
+    const axios = require("axios");
+    axios
+      .post(URL +  "/resetmhs", {
+        nim: this.state.data[index].nim
+      }).then(res => {
+        message.info("SUCCESS!")
+        this.onClickSearch()
+      })
+    }
+
   onKelasChanged = value => {
     this.setState(
       {
@@ -39,44 +90,6 @@ export default class Mahasiswa extends Component {
       },
       () => console.log("kelas : ", this.state.kelas)
     );
-  };
-
-  
-
-  state = {
-    column: [
-      {
-        title: "NIM",
-        dataIndex: "nim"
-      },
-      {
-        title: "Nama",
-        dataIndex: "nama"
-      },
-      {
-        title: "S/N",
-        dataIndex: "imei"
-      },
-      {
-        title: "Action",
-        key: "operation",
-        fixed: "right",
-        width: 150,
-        render: () => (
-          <div>
-            <Divider type="vertical" />
-            <Popconfirm title="Are you sure？" okText="Yes" cancelText="No">
-              <Button
-                type="primary"
-                shape="circle"
-                icon="delete"
-                size="small"
-              />
-            </Popconfirm>
-          </div>
-        )
-      }
-    ]
   };
 
   onClickSearch = () => {
@@ -102,14 +115,9 @@ export default class Mahasiswa extends Component {
       });
   };
 
-  onClick = () => {
-    console.log(this);
-    this.props.history.push("/tmbhmhs");
-  };
   render() {
     return (
       <div>
-        <Col span={20}>
           <Cascader
             options={options}
             onChange={this.onKelasChanged}
@@ -122,21 +130,18 @@ export default class Mahasiswa extends Component {
             icon="search"
             onClick={this.onClickSearch}
           />
-          </Col>
-        <Col span={4}>
-        <Upload {...props}   >
-          <Button>
-            <Icon type="upload" /> Click to Upload
-          </Button>
-        </Upload>  
-        </Col>
-        <br></br>
+          <div style={{marginTop:10}}>
+          <CSVReader 
+            onFileLoaded={handleForce}
+            onError={handleDarkSideForce}
+            inputId="ObiWan"
+            inputStyle={{color: 'blue'}}
+            onChange={this.onChange}
+          />
+          </div>
         <Divider/> 
         <Table
-          style={{ height: 200 }}
-          columns={this.state.column}
-          dataSource={this.state.data}
-          pagination={false}
+          columns={this.column} dataSource={this.state.data} pagination={{defaultPageSize: 20}} pagination={false} scroll={{ y: 600 }}
         />
       </div>
     );

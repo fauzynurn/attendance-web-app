@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Col, Button, Divider,Cascader, Table } from 'antd';
+import { Card, Button, Divider,Cascader, Table } from 'antd';
 import {URL} from '../components/API';
 import {options} from '../components/dataSet';
 

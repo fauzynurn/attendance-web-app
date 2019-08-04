@@ -3,10 +3,12 @@ import {Table, Tabs, DatePicker, Divider, Cascader, Button} from "antd";
 import Test from "../components/Test";
 import {URL} from '../components/API';
 import {options, sesi} from '../components/dataSet';
+import Axios from "axios";
 
 const { MonthPicker } = DatePicker;
 const TabPane = Tabs.TabPane;
 const Column = Table;
+
 
 function callback(key) {
   console.log(key);
@@ -17,8 +19,25 @@ export default class kehadiranMhs extends Component {
     tgl: "",
     jamKe: 0,
     kelas: "",
-    data: []
+    kelasSemester: "",
+    dataHarian: [],
+    dataSemester: []
   };
+
+  // semester = {
+  //   data: [],
+  // }
+
+   Columns = [
+    {
+      title: "nim",
+      dataIndex: "nim"
+    },
+    {
+      title: "Nama",
+      dataIndex: "namaMhs"
+    },
+  ];
 
   constructor(props){
     super(props)
@@ -27,8 +46,42 @@ export default class kehadiranMhs extends Component {
     this.jamKe = ""
   }
 
+  onClickSearch = () => {
+    const axios = require("axios");
+    console.log("THIS",this.state.kelasSemester)
+    axios
+      .post(URL +  "/getrekapkelas", {
+        kdKelas: this.state.kelasSemester
+      })
+      .then(response => {
+        console.log("RES",response);
+        var newArray = [];
+        response.data.forEach(item => {
+          item.key = item.nim;
+          newArray.push(item);
+        });
+        this.setState({
+          ...this.state,
+          dataSemester: newArray
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  onRequestKelas = value => {
+    this.setState(
+      {
+        ...this.state,
+        kelasSemester: value[0]  
+      },
+      //console.log("kelas :",this.semester.kelas)
+      () => console.log("kelas : ", this.state.kelas)
+    );
+  };
+
   doRequest = (value) => {
-    console.log("AJAJA",this)
     const axios = require("axios");
     axios
       .post(URL + "/getabsensiharian", {
@@ -125,6 +178,28 @@ export default class kehadiranMhs extends Component {
                   />
                 )}
               />
+            </Table>
+          </TabPane>
+          <TabPane tab="semester" key="2">
+          <Cascader
+            options={options}
+            onChange={this.onRequestKelas}
+            placeholder="Pilih kelas"
+          />
+          <Divider type="vertical" />
+          <Button
+            type="primary"
+            shape="round"
+            icon="search"
+            onClick={this.onClickSearch}
+          />
+          <Divider/>
+            <Table dataSource={this.state.dataSemester} pagination={false} >
+              <Column title="NIM" dataIndex="nim" style={{width:200}} />
+              <Column title="Nama" dataIndex="nama" style={{width:200}} />
+              <Column title="sakit" dataIndex="sakit" style={{width:50}} />
+              <Column title="izin" dataIndex="izin" style={{width:50}} />
+              <Column title="alpa" dataIndex="alpa" style={{width:50}} />
             </Table>
           </TabPane>
         </Tabs>
